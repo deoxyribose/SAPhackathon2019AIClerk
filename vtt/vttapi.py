@@ -47,7 +47,7 @@ def transcribe(device_index=None, language='en-US'):
     # Try catch the voice
     try:
         response['transcribed'] = r.recognize_google(
-            audio, language=language, key=os.environ.get('GOOGLESTTAPI'))
+            audio, language=language, key=None) # Here goes API Keys
         response['success'] = True
     except sr.UnknownValueError:
         response['error'] = 'Could not understand audio'
