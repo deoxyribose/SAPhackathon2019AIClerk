@@ -12,4 +12,8 @@ while True:
         text = None
     print(text)
 
+    if 'quit' in text.split():
+        print('Good bye')
+        break
+
     print('\n\n')
