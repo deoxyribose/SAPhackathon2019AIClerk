@@ -1,0 +1,35 @@
+<ul class="fd-list-group">
+  <cdk-virtual-scroll-viewport style="height: 1000px" itemSize="90">
+    <ng-container *cdkVirtualFor="let player of players">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="example-header-image"></div>
+          src="../../util/{{ player.name }}.jpg" -->
+          <img
+            src="/assets/images/{{ player.name }}.jpg"
+            mat-card-avatar
+            class="example-header-image"
+          />
+          <mat-card-title>{{ player.name }}</mat-card-title>
+          <mat-card-subtitle>{{ player.title }}</mat-card-subtitle>
+        </mat-card-header>
+        <button
+          mat-fab
+          color="primary"
+          class="sap-icon--media-play sap-icon--l"
+        ></button>
+        <!-- sound-loud -->
+        <br />
+        <mat-card-content>
+          <br />
+          {{ player.text }}
+        </mat-card-content>
+        <mat-card-actions>
+          <!--     <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button> -->
+        </mat-card-actions>
+      </mat-card>
+      <br />
+    </ng-container>
+  </cdk-virtual-scroll-viewport>
+</ul>

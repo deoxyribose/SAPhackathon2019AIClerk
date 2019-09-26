@@ -16,21 +16,19 @@ def index():
 @app.post('/data')
 async def send():
 
-    while True:
-        response = VoiceToText.transcribe(device_index=0, language='en-US')
+    response = VoiceToText.transcribe(audio_in='../data/audios/try3.wav', language='en-US')
 
-        if response.get('success'):
-            text = response.get('transcribed')
+    if response.get('success'):
+        text = response.get('transcribed')
+        storage['profile'].append('jack')
+        storage['text'].append(text)
+    else:
+        # print(response.get('error'))
+        text = None
+        storage['profile'].append('Error')
+        storage['text'].append(text)
 
-            storage['profile'].append('jack')
-            storage['text'].append(text)
-        else:
-            # print(response.get('error'))
-            text = None
-            storage['profile'].append('Error')
-            storage['text'].append(text)
-
-        return {'data': dict(storage)}
+    return {'data': dict(storage)}
 
 
 if __name__ == '__main__':
