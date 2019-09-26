@@ -1,9 +1,9 @@
-from vtt import vttapi
+from vtt import VoiceToText
 
 print('\n Voice to Text\n Setting microphone ...\n')
 
 while True:
-    response = vttapi.transcribe(device_index=0, language='en-US')
+    response = VoiceToText.transcribe(device_index=0, language='en-US')
 
     if response.get('success'):
         text = response.get('transcribed')

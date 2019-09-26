@@ -34,7 +34,7 @@ def transcribe(device_index=None, language='en-US'):
         # listen for 1 sec to calibrate the energy threshold
         # for ambient noise levels 
         r.adjust_for_ambient_noise(source)
-        print('Speaker: ', end='', flush=True)
+        # print('Speaker: ', end='', flush=True)
         audio = r.listen(source)
 
     # set up the response object
