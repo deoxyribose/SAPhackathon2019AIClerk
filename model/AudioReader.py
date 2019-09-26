@@ -3,15 +3,12 @@ import pyaudio
 import numpy as np
 import time
 import wave
-from scipy.fftpack import fft
-from sklearn.preprocessing import StandardScaler
 from collections import deque
 
 class ThreadMicrophone(Thread):
     def __init__(self, rate=44100):
         Thread.__init__(self)
         self.chunksize = int(rate*0.05) # 50ms
-        print(f'Chunksize {self.chunksize}')
         self.background_energy = []
         self.energy = deque(maxlen=int(rate*0.1)) # 100ms
         self.rate = rate
@@ -27,18 +24,15 @@ class ThreadMicrophone(Thread):
         self.event = Event()
         self.kill_event = Event()
         self.lock = Lock()
-        self.config = {'sample_width': self.t.p.get_sample_size(pyaudio.paInt16),
+        self.config = {'sample_width': self.p.get_sample_size(pyaudio.paInt16),
                   'rate':self.rate,
                   'channels':self.channels
                   }
 
 
-
-
     def get_bytes(self):
         r = []
         if self.event.is_set():
-            print('Waiting')
             with self.lock:
                 print('Reading')
                 r, self.data[:] = self.data[:], []
@@ -67,9 +61,9 @@ class ThreadMicrophone(Thread):
                         with self.lock:
                             chunk_string = self.stream.read(self.chunksize)
                             chunk = np.fromstring(chunk_string,dtype=np.int16)
-                            #self.data.append(chunk)
                             energy = np.linalg.norm(chunk, axis=0) ** 2
                             self.energy.append(energy)
+                            # Is a speaker present
                             if energy > (np.mean(self.background_energy)+np.std(self.background_energy)):
                                 self.idle_counter = 0
                                 self.speaker_present = True
@@ -77,11 +71,12 @@ class ThreadMicrophone(Thread):
                             else:
                                 self.idle_counter += 1
 
-                            if (self.idle_counter > 0) & ((self.idle_counter % 4) == 0) & (self.speaker_present):
+                            # Has the speaker ended
+                            if (self.idle_counter > 0) & ((self.idle_counter % 10) == 0) & (self.speaker_present):
                                 self.speaker_present = False
                                 print('Speak Ended')
                                 self.event.set()
-
+                            # Append data if speaker is talking
                             if self.speaker_present:
                                 self.data.append({'data_string':chunk_string,'data':chunk})
 
@@ -92,12 +87,6 @@ class ThreadMicrophone(Thread):
                     self.stream.close()
                     self.p.terminate()
                     break
-
-                    #X = np.abs(fft(chunk))
-                    #SFM = np.exp(np.log(X).mean())/(np.mean(X))
-                    #print(np.sum(X))
-                    #print(SFM)
-                    #self.event.set()
 
         else:
             print('Calculate background noise first')

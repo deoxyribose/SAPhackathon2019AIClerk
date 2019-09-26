@@ -1,5 +1,4 @@
 from AudioReader import ThreadMicrophone, save_aud
-from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 
 
@@ -14,7 +13,6 @@ class DummyModel():
 
 
 class AIClerk():
-
 
     def __init__(self):
         self.t = ThreadMicrophone()
@@ -42,7 +40,6 @@ class AIClerk():
             res['person'] = pred
 
         return res
-
 
 
     def save_aud(self, data_string, filename):

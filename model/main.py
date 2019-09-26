@@ -1,18 +1,14 @@
 from aiclerk import AIClerk
 import time
-import wave
-import pyaudio
 
 
 def main():
     # Start the microphone
-
     ai = AIClerk()
     ai.estimate_background_noise()
     ai.start()
     t0 = time.perf_counter()
     t1 = time.perf_counter()
-
     data_ = []
     while (t1-t0 < 10):
         t1 = time.perf_counter()
