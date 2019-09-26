@@ -1,0 +1,27 @@
+.container {
+  margin-right: auto; /* 1 */
+  margin-left: 400px; /* 1 */
+
+  max-width: 80vw; /* 2 */
+
+  padding-right: 100px; /* 3 */
+  padding-left: 100px; /* 3 */
+}
+.company-logo {
+  max-width: 100px;
+  min-height: 100px;
+  margin-left: 300px;
+}
+.room {
+  margin-left: 320px;
+}
+/* .header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+} */
